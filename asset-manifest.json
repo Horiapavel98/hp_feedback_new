@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/hp_feedback_new/static/css/main.be99c40b.css",
+    "main.js": "/hp_feedback_new/static/js/main.5f368ce1.js",
+    "index.html": "/hp_feedback_new/index.html",
+    "main.be99c40b.css.map": "/hp_feedback_new/static/css/main.be99c40b.css.map",
+    "main.5f368ce1.js.map": "/hp_feedback_new/static/js/main.5f368ce1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.be99c40b.css",
+    "static/js/main.5f368ce1.js"
+  ]
+}
