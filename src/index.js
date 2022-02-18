@@ -34,8 +34,7 @@ const FeedbackForm = () => {
     let payload = {
       from: providerName === "" ? "<anonymous>" : providerName,
       feedback: feedback,
-      timestamp: new Date(),
-      browser_info: navigator.userAgent
+      timestamp: new Date()
     }
 
     db.collection("feedback")
