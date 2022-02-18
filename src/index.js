@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import "./styles.css";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -16,40 +15,51 @@ firebase.initializeApp({
 });
 
 const FeedbackForm = () => {
+
   const db = firebase.firestore();
 
-  const formik = useFormik({
-    initialValues: { feedback: "" },
-    onSubmit: (values) => {
-      // Handle errors in connection
-      db.collection("feedback").add(values);
-      alert("Feedback submitted successfully!");
-    },
-  });
+  const [providerName, setProviderName] = useState("");
+  const [feedback, setFeedback] = useState("");
+
+  const handleNameChange = (event) => {
+    setProviderName(event.target.value)
+  }
+
+  const handleFeedbackChange = (event) => {
+    setFeedback(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+
+    let payload = {
+      from: providerName === "" ? "<anonymous>" : providerName,
+      feedback: feedback,
+      timestamp: new Date(),
+      browser_info: navigator.userAgent
+    }
+
+    db.collection("feedback")
+      .add(payload)
+      .then(alert("Feedback successfully sent! Thank you!"))
+
+    setProviderName("");
+    setFeedback("");
+
+    event.preventDefault();
+  }
+
   return (
-    // <LimitedTextarea limit={30} value="Hello!"/>
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="feedback">Write your feedback for Horia here ...</label>
-      <br />
-      <textarea
-        id="feedback"
-        name="feedback"
-        type="text"
-        rows={10}
-        cols={300}
-        onChange={formik.handleChange}
-        value={formik.values.feedback}
-      />
-      <br />
-      {/* <input
-        id="feedback"
-        name="feedback"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.feedback}
-      /> */}
-      <button type="submit">Send feedback</button>
-    </form>
+    <form onSubmit={handleSubmit}>
+        <label>Name (optional)</label>
+          <input type="text"value={providerName} onChange={handleNameChange} />
+        <label>Feedback</label>
+            <textarea 
+              rows={10}
+              cols={300}
+              value={feedback} onChange={handleFeedbackChange} />
+            <br></br>
+        <button type="submit">Send feedback</button>
+      </form>
   );
 };
 
